@@ -1,23 +1,24 @@
 #include "Rectangle.h"
 #include <boost/assert.hpp>
 
+Rectangle::Rectangle(coord_t x1, coord_t y1, coord_t x2, coord_t y2) :
+	lb(std::min(x1, x2), std::min(y1, y2)),
+	ru(std::max(x1, x2), std::max(y1, y2))
+{
+	/*BOOST_ASSERT_MSG(!(Line(lb,ru).isHorizontal() || Line(lb,ru).isVertical()),
+		"Invalid rectangle format");*/
+	BOOST_ASSERT_MSG(!(x1 == x2/*vertical*/ || y1 == y2/*horizontal*/),
+		"Invalid rectangle format");
+}
+
 Rectangle::Rectangle(Point p1, Point p2) :
-	Rectangle(Line(p1, p2))
+	Rectangle(p1.getX(), p1.getY(), p2.getX(), p2.getY())
 {}
 
-Rectangle::Rectangle(Line l) : lb(l.getLeftPoint()), ru(l.getRightPoint())
-{
-	BOOST_ASSERT_MSG(!(l.isHorizontal() || l.isVertical()),
-		"Invalid rectangle format");
+Rectangle::Rectangle(Line l) :
+	Rectangle(l.firstPoint(), l.secondPoint())
+{}
 
-	coord_t left_x = l.getLeftPoint().getAbscis();
-	coord_t right_x = l.getRightPoint().getAbscis();
-	coord_t bottom_y = l.getBottomPoint().getOrdinate();
-	coord_t upper_y = l.getUpperPoint().getOrdinate();
-
-	lb = Point(left_x, bottom_y);
-	ru = Point(right_x, upper_y);
-}
 
 Line Rectangle::getLeftSide()
 {

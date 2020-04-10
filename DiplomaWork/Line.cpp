@@ -69,8 +69,8 @@ radian_t Line::ObtuseRadian(Line l1, Line l2)
 //true-> perpendicular falls on a segment, m has projection on Line
 bool Line::HasProjection(Point m) const
 {
-	return Vector::PseudoScalarProduct(Vector(p1, m), Vector(p1, p2)) < 0
-		|| Vector::PseudoScalarProduct(Vector(p2, m), Vector(p2, p1)) < 0;
+	return Vector::ScalarProduct(Vector(p1, m), Vector(p1, p2)) < 0
+		|| Vector::ScalarProduct(Vector(p2, m), Vector(p2, p1)) < 0;
 }
 
 //Line length, distance(p1,p2)
@@ -84,14 +84,14 @@ distance_t Line::DistanceToPoint(Point m) const
 {
 	if (HasProjection(m)) {
 		// h * length = Area
-		product_t S_Area = Vector::PseudoScalarProduct(Vector(p1, p2), Vector(p1, m));
+		product_t S_Area = std::abs(Vector::PseudoScalarProduct(Vector(p1, p2), Vector(p1, m)));
 		return S_Area / length();
 	}
 	else
 		return std::min(Point::distance(p1, m), Point::distance(p2, m));
 }
 
-//Line contains Point m
+//true-> Line contains Point m
 bool Line::ContainsPoint(Point m) const
 {
 	return  OnStraight(m) &&
@@ -101,19 +101,19 @@ bool Line::ContainsPoint(Point m) const
 //Point and Line Relation
 PointLineRelationship Line::PointRelation(Point p) const
 {
-	if (OnStraight(p))//relation = 0
-		return PointLineRelationship::OnStraight;
-
-	//check the verticality only after OnStraight
-	if (isVertical()) {
-		return p.getX() < p1.getX() ? PointLineRelationship::VerticalLeft
-			: PointLineRelationship::VerticalRight;
-	}
 
 	const auto [p1, p2] = Point::minmax_X(this->p1, this->p2);
 	product_t relation = Vector::PseudoScalarProduct(Vector(p1, p2), Vector(p1, p));
 
-	if (relation < 0)
+	if (relation == 0)//OnStraight(p))
+		return PointLineRelationship::OnStraight;
+
+	//check the verticality only after OnStraight
+	else if (isVertical()) {
+		return p.getX() < p1.getX() ? PointLineRelationship::VerticalLeft
+			: PointLineRelationship::VerticalRight;
+	}
+	else if (relation < 0)
 		return PointLineRelationship::LowerHalfPlane;
 	else /*relation > 0*/
 		return PointLineRelationship::UpperHalfPlane;

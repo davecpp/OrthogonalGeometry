@@ -8,8 +8,9 @@ class Rectangle
 	Point lb, ru;
 
 public:
-	Rectangle(Point l1, Point l2);
-	Rectangle(Line l);
+	explicit Rectangle(coord_t x1, coord_t y1, coord_t x2, coord_t y2);
+	explicit Rectangle(Point l1, Point l2);
+	explicit Rectangle(Line l);
 
 	Line getLeftSide();
 	Line getRightSide();

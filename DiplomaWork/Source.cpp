@@ -8,22 +8,13 @@
 
 
 int main() {
-	
 
-	std::cout << std::numeric_limits<double>::min() << std::endl;
-	std::cout << std::numeric_limits<double>::lowest() << std::endl;
-	
-	try {
-		std::optional<double> value = std::nullopt;
+	Line l1(Point(0, 0), Point(0, 10));
+	Line l2(Point(5, 5), Point(5, -5));
 
-
-		if (value.has_value()) {
-			std::cout << value.has_value() << std::endl;
-		}
-		std::cout << value.value();
-	}
-	catch (const std::bad_optional_access& ex) {
-		std::cout << ex.what();
-	}
+	std::cout << Line::areIntersect(l1, l2) << std::endl;
+	std::cout << Line::areParallel(l1, l2) << std::endl;
+	std::cout << l1.DistanceToPoint(Point(10, 10)) << std::endl;
+	std::cout << l1.ContainsPoint(Point(0, 5)) << std::endl;
 
 }

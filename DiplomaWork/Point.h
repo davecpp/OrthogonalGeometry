@@ -1,11 +1,13 @@
 #pragma once
 #include <utility>
 #include <limits>
-
 #include "BadCoordinate.h"
 
 using coord_t = double;
 using distance_t = double;
+
+
+
 
 constexpr coord_t invalid_coord = std::numeric_limits<coord_t>::lowest();
 
@@ -33,10 +35,12 @@ class Point
 
 public:
 	//by default invalid
-	Point(coord_t x, coord_t y) :x(x), y(y) {}
-
+	explicit Point(coord_t x, coord_t y) :x(x), y(y) {}
+	//distance between p1 and p2 (result>=0)
 	NODISCARD static distance_t distance(Point p1, Point p2);
+	//p1.x - p2.x
 	static coord_t delta_x(Point p1, Point p2);
+	//p1.y - p2.y
 	static coord_t  delta_y(Point p1, Point p2);
 
 	//return pair, first point is min_abscis(p1,p2) 
@@ -47,13 +51,13 @@ public:
 	//getters/////////////////////////////
 
 	//x
-	coord_t getAbscis();
+	coord_t getAbscis() const;
 	//y
-	coord_t getOrdinate();
+	coord_t getOrdinate() const;
 	//abscis
-	coord_t getX();
+	coord_t getX() const;
 	//ordinate
-	coord_t getY();
+	coord_t getY() const;
 
 	//setters//////////////////////////////
 

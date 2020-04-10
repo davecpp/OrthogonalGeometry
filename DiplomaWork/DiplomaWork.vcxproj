@@ -148,6 +148,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Angles.h" />
     <ClInclude Include="BadCoordinate.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Line.h" />

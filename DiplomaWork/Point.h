@@ -3,28 +3,15 @@
 #include <limits>
 #include "BadCoordinate.h"
 
+
+
 using coord_t = double;
 using distance_t = double;
 
 
-
-
-constexpr coord_t invalid_coord = std::numeric_limits<coord_t>::lowest();
-
-class Coordinate_V {
-	static constexpr coord_t invalid_coord = std::numeric_limits<coord_t>::lowest();
-	coord_t value = invalid_coord;
-public:
-	NODISCARD coord_t getvalue() {
-		if (value == invalid_coord)
-			throw BadCoordinate("Invalid Coordinate value");
-		return value;
-	}
-	void setValue(coord_t val) {
-		this->value = val;
-	}
-	Coordinate_V(coord_t value = invalid_coord) :value(value) {}
-};
+BEGIN_NAMESPACE(nm_Point)
+//constexpr coord_t invalid_coord = std::numeric_limits<coord_t>::lowest();
+const coord_t invalid_coord = nan("invalid coordinate");
 
 
 
@@ -36,6 +23,10 @@ class Point
 public:
 	//by default invalid
 	explicit Point(coord_t x, coord_t y) :x(x), y(y) {}
+
+	NODISCARD bool isValid() {
+		return x != invalid_coord && y != invalid_coord;
+	}
 	//distance between p1 and p2 (result>=0)
 	NODISCARD static distance_t distance(Point p1, Point p2);
 	//p1.x - p2.x
@@ -71,4 +62,7 @@ public:
 	inline void setY(coord_t y);
 };
 
+NODISCARD bool operator==(Point p1, Point p2);
+NODISCARD bool operator!=(Point p1, Point p2);
 
+END_NAMESPACE(nm_Point)

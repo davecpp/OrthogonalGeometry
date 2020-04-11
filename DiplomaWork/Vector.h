@@ -6,8 +6,13 @@
 
 using product_t = double;
 
+BEGIN_NAMESPACE(nm_Vector)
+
+using namespace nm_Point;
+using namespace nm_Angles;
 
 class Vector {
+
 	Point begin, end;
 public:
 
@@ -20,15 +25,15 @@ public:
 	//void setEnd(Point p) { end = p; }
 
 private:
-	coord_t getX() const { return Point::delta_x(end, begin); };
-	coord_t getY() const { return Point::delta_y(end, begin); }
+	NODISCARD coord_t getX() const { return Point::delta_x(end, begin); };
+	NODISCARD coord_t getY() const { return Point::delta_y(end, begin); }
 public:
-	distance_t module() const { return Point::distance(begin, end); };
+	NODISCARD distance_t module() const { return Point::distance(begin, end); };
 
 	//Vector Product
 	NODISCARD static Vector CrossProduct(Vector v1, Vector v2);
 	//Cross Product
-	static Vector VectorProduct(Vector v1, Vector v2) {
+	NODISCARD static Vector VectorProduct(Vector v1, Vector v2) {
 		return CrossProduct(v1, v2);
 	}
 
@@ -36,7 +41,7 @@ public:
 	//Scalar Product
 	NODISCARD static product_t DotProduct(Vector v1, Vector v2);
 	//Dot Product
-	static product_t ScalarProduct(Vector v1, Vector v2) {
+	NODISCARD static product_t ScalarProduct(Vector v1, Vector v2) {
 		return DotProduct(v1, v2);
 	}
 
@@ -49,41 +54,4 @@ public:
 
 };
 
-/////////////////////////////////////////////////////////////
-//////////////////IMPLEMENTATION///////////////////////////
-/////////////////////////////////////////////////////////////
-
-#include <boost/assert.hpp>
-NODISCARD inline Vector Vector::CrossProduct(Vector v1, Vector v2)
-{
-	BOOST_ASSERT_MSG(false, "implementation");
-	return v1;
-}
-
-
-//cross(vector) product module
-NODISCARD inline product_t Vector::DotProduct(Vector v1, Vector v2)
-{
-	return v1.getX() * v2.getX() + v1.getY() * v2.getY();
-}
-//dot product-> cross(vector) product module
-NODISCARD inline product_t Vector::PseudoScalarProduct(Vector v1, Vector v2)
-{
-	return v1.getX() * v2.getY() - v2.getX() * v1.getY();
-}
-
-//v1^v2 with radian
-inline radian_t Vector::Angle_rad(Vector v1, Vector v2)
-{
-	//module(v1) * module(v2) * cos(a) = ScalarProduct(v1,v2)
-	product_t s = ScalarProduct(v1, v2);
-	//acos return [0,pi], if argument ![-1,1] -> throw domain error
-	return radian_t(std::acos(s / (v1.module() * v2.module())));
-}
-//v1^v2 with degree
-NODISCARD angle_t Vector::Angle(Vector v1, Vector v2)
-{
-	//radian * 180 / pi
-	return toAngle(Angle_rad(v1, v2));
-}
-
+END_NAMESPACE(nm_Vector)

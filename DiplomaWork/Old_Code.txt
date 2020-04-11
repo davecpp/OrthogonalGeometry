@@ -1,0 +1,47 @@
+Function Line::HasProjection
+Line l11 = Line(l1.firstPoint(), l2.firstPoint());
+	Line l12 = Line(l1.firstPoint(), l2.secondPoint());
+	product_t Z1 = Vector::PseudoScalarProduct(toVector(l1), toVector(l11));
+	product_t Z2 = Vector::PseudoScalarProduct(toVector(l1), toVector(l12));
+
+	//auto sin_11 = (Z1 / (l1.length() * l11.length()));
+	//auto cos_11 = std::sqrt(1 - (sin_11 * sin_11));
+	//distance_t D1_d = l11.length() * cos_11;
+	//coord_t D1_x = D1_d * std::abs(l1.delta_x()) / l1.length();
+	//coord_t D1_y = D1_d * std::abs(l1.delta_y()) / l1.length();
+
+
+
+	//auto sin_12 = (Z2 / (l1.length() * l12.length()));
+	//auto cos_12 = std::sqrt(1 - (sin_12 * sin_12));
+	//distance_t D2_d = l12.length() * cos_12;
+	//coord_t D2_x = D2_d * std::abs(l1.delta_x()) / l1.length();
+	//coord_t D2_y = D2_d * std::abs(l1.delta_y()) / l1.length();
+
+	//return Point(
+	//	l2.firstPoint().getX() + (D2_x - D1_x) * std::abs(Z1 / (Z2 - Z1)),
+	//	l2.firstPoint().getY() + (D2_y - D1_y) * std::abs(Z1 / (Z2 - Z1))
+	//);
+
+
+
+Function Line::IntersectionType
+/*//l1 and l2 belong in the one straight
+	if (relation11 == relation12 && relation11 == PointLineRelationship::OnStraight) {
+		BOOST_ASSERT_MSG(inOneStraight(l1, l2), "Implement error");
+
+		auto x_length_sum = std::abs(l1.delta_x()) + std::abs(l2.delta_x());
+		auto y_length_sum = std::abs(l1.delta_y()) + std::abs(l2.delta_y());
+		auto x_maxmeasure_length = std::max(l1.max_x(), l2.max_x()) - std::min(l1.min_x(), l2.min_x());
+		auto y_maxmeasure_length = std::max(l1.max_y(), l2.max_y()) - std::min(l1.min_y(), l2.min_y());
+
+		if (x_length_sum < x_maxmeasure_length || y_length_sum < y_maxmeasure_length)
+			return LinesIntersection::NotIntersect;
+		else if (x_length_sum == x_maxmeasure_length && y_length_sum == y_maxmeasure_length)//&& for isothetic case's
+			return LinesIntersection::IntersectInPoint;
+		else { //Intersect in line
+			BOOST_ASSERT_MSG(x_length_sum > x_maxmeasure_length || y_length_sum > y_maxmeasure_length, "implement error");
+			return LinesIntersection::IntersectInLine;
+		}
+	}
+	return LinesIntersection::NotIntersect;*/

@@ -1,12 +1,17 @@
 #include "Point.h"
 #include <complex>
 
+
+
 //value^2
 template<typename _Ty>
 auto square(_Ty value)->decltype(value* value)
 {
 	return value * value;
 }
+
+
+BEGIN_NAMESPACE(nm_Point)
 //distance between p1 and p2 (result >=0)
 distance_t Point::distance(Point p1, Point p2)
 {
@@ -55,3 +60,15 @@ inline void Point::setX(coord_t x) { setAbscis(x); }
 //ordinate
 inline void Point::setY(coord_t y) { setOrdinate(y); }
 
+NODISCARD bool operator==(Point p1, Point p2)
+{
+	return p1.getX() == p2.getX() &&
+		p1.getY() == p2.getY();
+}
+
+bool operator!=(Point p1, Point p2)
+{
+	return !(p1 == p2);
+}
+
+END_NAMESPACE(nm_Point)

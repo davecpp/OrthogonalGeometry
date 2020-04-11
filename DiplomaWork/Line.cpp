@@ -2,30 +2,84 @@
 #include "Line.h"
 #include "Vector.h"
 
+BEGIN_NAMESPACE(nm_Line)
+using namespace nm_Vector;
+
+
 //Construct Vector from l
 Vector toVector(Line l) {
 	return Vector(l.firstPoint(), l.secondPoint());
 }
 
 //true -> l1 and l2 intersetced
-bool Line::areIntersect(Line l1, Line l2)
+LinesIntersection Line::IntersectionType(Line l1, Line l2)
 {
-	PointLineRelationship relation1 = l1.PointRelation(l2.firstPoint());
-	PointLineRelationship relation2 = l1.PointRelation(l2.secondPoint());
-	if (relation1 != PointLineRelationship::OnStraight
-		&& relation2 != PointLineRelationship::OnStraight)
-		return relation1 != relation2;
-	else//one of the endpoints l2 belongs to the l1 line straight
-		return l1.ContainsPoint(l2.firstPoint()) || l1.ContainsPoint(l2.secondPoint());
+	PointLineRelationship relation11 = l1.PointRelation(l2.firstPoint());
+	PointLineRelationship relation12 = l1.PointRelation(l2.secondPoint());
+	PointLineRelationship relation21 = l2.PointRelation(l1.firstPoint());
+	PointLineRelationship relation22 = l2.PointRelation(l1.secondPoint());
+
+	if (relation11 != relation12 && relation21 != relation22)
+		return LinesIntersection::IntersectInPoint;
+	//l1 and l2 belong in the one straight
+	if (relation11 == relation12 && relation11 == PointLineRelationship::OnStraight) {
+		BOOST_ASSERT_MSG(inOneStraight(l1, l2), "Implement error");
+		if (l1.max_x() == l2.min_x() || l2.max_x() == l1.min_x()
+			&& l1.max_y() == l2.min_y() || l2.max_y() == l1.min_y())
+			return LinesIntersection::IntersectInPoint;
+
+		else if ((l1.min_x() < l2.max_x() && l1.max_x() > l2.min_x())//conformity with x
+			|| (l1.min_y() < l2.max_y() && l1.max_y() > l2.min_y()))// conformity with y
+			return LinesIntersection::IntersectInLine;
+		return LinesIntersection::NotIntersect;
+	}
+	return LinesIntersection::NotIntersect;
 }
 
-//true-> l1 || l2, l1 and l2 parallel
+
+
+//two Lines Intersection Point
+std::optional<Point> Line::IntersectionPoint(Line l1, Line l2)
+{
+	if (IntersectionType(l1, l2) != LinesIntersection::IntersectInPoint)
+		return std::optional<Point>();
+
+	product_t Z1 = Vector::PseudoScalarProduct(toVector(l1), Vector(l1.firstPoint(), l2.firstPoint()));
+	product_t Z2 = Vector::PseudoScalarProduct(toVector(l1), Vector(l1.firstPoint(), l2.secondPoint()));
+	if (Z1 == 0 && Z2 == 0) {
+		if (l1.isEndPoint(l2.firstPoint())) return l2.firstPoint();
+		else if (l1.isEndPoint(l2.secondPoint())) return l2.secondPoint();
+	}
+	return Point(
+		l2.firstPoint().getX() + (l2.secondPoint().getX() - l2.firstPoint().getX()) * std::abs(Z1 / (Z2 - Z1)),
+		l2.firstPoint().getY() + (l2.secondPoint().getY() - l2.firstPoint().getY()) * std::abs(Z1 / (Z2 - Z1))
+	);
+}
+
+
+//true-> l1 || l2, l1 and l2 parallel, Angle(l1,l2) = 0
 bool Line::areParallel(Line l1, Line l2)
 {
+	//sin(0) = 0
 	return Vector::PseudoScalarProduct(
+		Vector(toVector(l1)),
+		Vector(toVector(l2))
+	) == 0;
+}
+//true-> l1 || l2, l1 and l2 perpendicular, Angle(l1,l2) = 90 degree
+bool Line::arePerpendicular(Line l1, Line l2)
+{
+	//cos(90) = 0
+	return Vector::ScalarProduct(
 		Vector(l1.firstPoint(), l1.secondPoint()),
 		Vector(l2.firstPoint(), l2.secondPoint())
 	) == 0;
+}
+
+//l1 and l2 belong in one straight
+bool Line::inOneStraight(Line l1, Line l2)
+{
+	return l1.OnStraight(l2.firstPoint()) && l1.OnStraight(l2.secondPoint());
 }
 
 //distance between Straight(l) and p
@@ -97,6 +151,13 @@ bool Line::ContainsPoint(Point m) const
 	return  OnStraight(m) &&
 		Vector::ScalarProduct(Vector(m, p1), Vector(m, p2)) <= 0;
 }
+//Do the Line Contains Point, if we know point relation, ContainsPoint optimized version
+bool Line::ContainsPoint(Point m, PointLineRelationship relation) const
+{
+	if (relation == PointLineRelationship::OnStraight)
+		return Vector::ScalarProduct(Vector(m, p1), Vector(m, p2)) <= 0;
+	else return false;
+}
 
 //Point and Line Relation
 PointLineRelationship Line::PointRelation(Point p) const
@@ -159,3 +220,5 @@ Point Line::getBottomPoint() const
 }
 
 
+
+END_NAMESPACE(nm_Line)

@@ -1,7 +1,6 @@
 #pragma once
 #include <cmath>
 #include "Point.h"
-#include "Line.h"
 #include "Angles.h"
 
 using product_t = double;

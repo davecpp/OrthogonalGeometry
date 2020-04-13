@@ -3,15 +3,11 @@
 
 
 
-//value^2
-template<typename _Ty>
-auto square(_Ty value)->decltype(value* value)
-{
-	return value * value;
-}
+
 
 
 BEGIN_NAMESPACE(nm_Point)
+
 //distance between p1 and p2 (result >=0)
 distance_t Point::distance(Point p1, Point p2)
 {

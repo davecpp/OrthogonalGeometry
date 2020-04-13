@@ -3,7 +3,12 @@
 #include <limits>
 #include "BadCoordinate.h"
 
-
+//value^2
+template<typename _Ty>
+auto square(_Ty value)->decltype(value* value)
+{
+	return value * value;
+}
 
 using coord_t = double;
 using distance_t = double;

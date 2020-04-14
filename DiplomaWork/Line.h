@@ -5,10 +5,17 @@
 #include "Angles.h"
 #include "Straight.h"
 
+#include "Vector.h"
+
+
 BEGIN_NAMESPACE(nm_Line)
 using namespace nm_Point;
 using namespace nm_Angles;
 using namespace nm_Straight;
+
+class Line;
+
+
 
 enum class LinesIntersection :std::uint8_t {
 	NotIntersect,
@@ -53,8 +60,18 @@ public:
 	NODISCARD bool ContainsPoint(Point, PointLineRelationship) const;
 	//relation Point and Line
 	NODISCARD PointLineRelationship PointRelation(Point) const;
-	//Point and Line in one Straight
+	//Point and Line in one p_Straight
 	NODISCARD bool OnStraight(Point) const;
+
+
+	//Construct Vector from l
+	NODISCARD Vector toVector() const {
+		return Vector(p1, p2);
+	}
+	//Construct p_Straight from l
+	NODISCARD p_Straight toPStraight() const {
+		return p_Straight(p1, p2);
+	}
 
 
 
@@ -92,3 +109,22 @@ public:
 
 
 END_NAMESPACE(nm_Line)
+
+
+//template<>
+//inline nm_Vector::Vector geometry_cast<nm_Vector::Vector>(nm_Line::Line l) {
+//	return l.toVector();
+//}
+
+template<>
+inline nm_Straight::p_Straight geometry_cast<nm_Straight::p_Straight>(nm_Line::Line l) {
+	return l.toPStraight();
+}
+
+template<>
+inline nm_Straight::StraightEquation geometry_cast<nm_Straight::StraightEquation>(nm_Line::Line l) {
+	return geometry_cast<nm_Straight::StraightEquation>(l.toPStraight());
+}
+
+
+

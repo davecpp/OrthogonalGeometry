@@ -2,18 +2,11 @@
 #include "Line.h"
 #include "Vector.h"
 
+
+
 BEGIN_NAMESPACE(nm_Line)
 using namespace nm_Vector;
 
-
-//Construct Vector from l
-inline Vector toVector(Line l) {
-	return Vector(l.firstPoint(), l.secondPoint());
-}
-//Construct Straight from l
-inline Straight toStraight(Line l) {
-	return Straight(l.firstPoint(), l.secondPoint());
-}
 
 
 //true -> l1 and l2 intersetced
@@ -51,8 +44,8 @@ std::optional<Point> Line::IntersectionPoint(Line l1, Line l2)
 
 	LinesIntersection intersect = IntersectionType(l1, l2);
 	if (intersect == LinesIntersection::IntersectInPoint) {
-		product_t Z1 = Vector::PseudoScalarProduct(toVector(l1), Vector(l1.firstPoint(), l2.firstPoint()));
-		product_t Z2 = Vector::PseudoScalarProduct(toVector(l1), Vector(l1.firstPoint(), l2.secondPoint()));
+		product_t Z1 = Vector::PseudoScalarProduct(l1.toVector(), Vector(l1.firstPoint(), l2.firstPoint()));
+		product_t Z2 = Vector::PseudoScalarProduct(l1.toVector(), Vector(l1.firstPoint(), l2.secondPoint()));
 		auto K = std::abs(Z1 / (Z2 - Z1));
 		return Point(
 			l2.firstPoint().getX() + (l2.secondPoint().getX() - l2.firstPoint().getX()) * K,
@@ -112,7 +105,7 @@ bool Line::ContainsPoint(Point m, PointLineRelationship relation) const
 //Point and Line Relation
 PointLineRelationship Line::PointRelation(Point p) const
 {
-	return toStraight(*this).PointRelation(p);
+	return toPStraight().PointRelation(p);
 }
 
 //true -> Point and Line on one straight

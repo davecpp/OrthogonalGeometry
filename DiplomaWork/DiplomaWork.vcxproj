@@ -148,17 +148,22 @@
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Straight.cpp" />
+    <ClCompile Include="p_Straight.cpp" />
+    <ClCompile Include="StraightEquation.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Angles.h" />
     <ClInclude Include="BadCoordinate.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="GeometryCast.h" />
+    <ClInclude Include="Straight.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Rectangle.h" />
-    <ClInclude Include="Straight.h" />
+    <ClInclude Include="p_Straight.h" />
+    <ClInclude Include="Straight_Abstract.h" />
+    <ClInclude Include="StraightEquation.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>

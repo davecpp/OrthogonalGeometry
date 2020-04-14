@@ -1,6 +1,24 @@
 #include "Angles.h"
 
+
+
+
+
 BEGIN_NAMESPACE(nm_Angles)
+
+
+//rad * 180 / pi
+angle_t toAngle(radian_t rad) {
+	return angle_t(rad.radian * 180 / radian_t::pi);
+	//return geometry_cast<angle_t>(rad);
+}
+//angle * pi /180
+radian_t toRadian(angle_t angle) {
+	return radian_t(angle.angle * radian_t::pi / 180);
+	//return geometry_cast<radian_t>(angle);
+}
+
+
 
 
 NODISCARD bool angle_t::isSharp()
@@ -62,14 +80,6 @@ radian_t operator+(radian_t l, radian_t r) {
 }
 
 
-//rad * 180 / pi
-angle_t toAngle(radian_t rad) {
-	return angle_t(rad.radian * 180 / radian_t::pi);
-}
-//angle * pi /180
-radian_t toRadian(angle_t angle) {
-	return radian_t(angle.angle * radian_t::pi / 180);
-}
 
 END_NAMESPACE(nm_Angles)
 

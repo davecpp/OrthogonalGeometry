@@ -2,6 +2,7 @@
 #include <utility>
 #include <limits>
 #include "BadCoordinate.h"
+#include "GeometryCast.h"
 
 //value^2
 template<typename _Ty>

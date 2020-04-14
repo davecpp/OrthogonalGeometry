@@ -3,6 +3,7 @@
 #include "Point.h"
 #include "Angles.h"
 
+
 using product_t = double;
 
 BEGIN_NAMESPACE(nm_Vector)
@@ -17,6 +18,7 @@ public:
 
 	explicit Vector(Point begin, Point end) : begin(begin), end(end) {}
 	explicit Vector(Point end) : begin(Point(0, 0)), end(end) {}
+	explicit Vector(coord_t x, coord_t y) :Vector(Point(x, y)) {}
 
 	//Point getBegin() { return begin; }
 	//Point getEnd() { return end; }
@@ -26,8 +28,12 @@ public:
 private:
 	NODISCARD coord_t getX() const { return Point::delta_x(end, begin); };
 	NODISCARD coord_t getY() const { return Point::delta_y(end, begin); }
+
 public:
 	NODISCARD distance_t module() const { return Point::distance(begin, end); };
+
+	NODISCARD Point VectorBegin() const { return begin; };
+	NODISCARD Point VectorEnd() const { return end; };
 
 	//Vector Product
 	NODISCARD static Vector CrossProduct(Vector v1, Vector v2);
@@ -54,3 +60,4 @@ public:
 };
 
 END_NAMESPACE(nm_Vector)
+

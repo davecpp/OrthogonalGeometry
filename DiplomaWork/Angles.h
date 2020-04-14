@@ -2,6 +2,8 @@
 #include <boost/math/constants/constants.hpp>
 #include <boost/assert.hpp>
 #include "Defines.h"
+#include "GeometryCast.h"
+
 
 BEGIN_NAMESPACE(nm_Angles)
 struct angle_t;
@@ -14,6 +16,9 @@ angle_t operator+(angle_t, angle_t);
 
 angle_t toAngle(radian_t rad);
 radian_t toRadian(angle_t angle);
+
+
+
 
 
 struct angle_t {
@@ -35,7 +40,7 @@ struct angle_t {
 	NODISCARD static angle_t min() {
 		return angle_t(0);
 	}
-	
+
 	//angle < 90
 	NODISCARD bool isSharp();
 	//angle > 90
@@ -81,3 +86,15 @@ struct radian_t {
 };
 
 END_NAMESPACE(nm_Angles)
+
+
+
+template<>
+inline nm_Angles::angle_t geometry_cast(nm_Angles::radian_t rad) {
+	return nm_Angles::angle_t(rad.radian * 180 / nm_Angles::radian_t::pi);
+}
+
+template<>
+inline nm_Angles::radian_t geometry_cast(nm_Angles::angle_t angle) {
+	return nm_Angles::radian_t(angle.angle * nm_Angles::radian_t::pi / 180);
+}

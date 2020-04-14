@@ -30,7 +30,7 @@ LinesIntersection Line::IntersectionType(Line l1, Line l2)
 			return LinesIntersection::Continues;
 
 		else if ((l1.min_x() < l2.max_x() && l1.max_x() > l2.min_x())//conformity with x
-			|| (l1.min_y() < l2.max_y() && l1.max_y() > l2.min_y()))// conformity with y
+			|| (l1.min_y() < l2.max_y() && l1.max_y() > l2.min_y()))// conformity with x
 			return LinesIntersection::IntersectInLine;
 		return LinesIntersection::NotIntersect;
 	}
@@ -58,6 +58,34 @@ std::optional<Point> Line::IntersectionPoint(Line l1, Line l2)
 	}
 	return std::optional<Point>();
 
+}
+
+//vertical and l intersection point
+std::optional<Point> Line::VerticalLineIntersection(Line vertical, Line l)
+{
+	BOOST_ASSERT_MSG(vertical.isVertical(), "wrong function call");
+	coord_t x = vertical.firstPoint().getX();
+	auto y = l.appropriateY(x);
+	if (y.has_value()) {
+		//return (y.value() - vertical.firstPoint().getY()) * (y.value() - vertical.secondPoint().getY()) <= 0
+		return vertical.ContainsPoint(Point(x, y.value()), PointLineRelationship::OnStraight)
+			? Point(x, y.value()) : std::optional<Point>();
+	}
+	return std::optional<Point>();
+}
+
+//horizontal and l intersection point
+std::optional<Point> Line::HorizontalLineIntersection(Line horizontal, Line l)
+{
+	BOOST_ASSERT_MSG(horizontal.isHorizontal(), "wrong function call");
+	coord_t y = horizontal.firstPoint().getY();
+	auto x = l.appropriateX(y);
+	if (x.has_value()) {
+		//return (x.value() - horizontal.firstPoint().getX()) * (x.value() - horizontal.secondPoint().getX()) <= 0
+		return horizontal.ContainsPoint(Point(x.value(), y), PointLineRelationship::OnStraight)
+			? Point(x.value(), y) : std::optional<Point>();
+	}
+	return std::optional<Point>();
 }
 
 //true-> perpendicular falls on a segment, m has projection on Line
@@ -123,6 +151,28 @@ bool Line::isVertical() const
 bool Line::isHorizontal() const
 {
 	return p1.getOrdinate() == p2.getOrdinate();
+}
+
+std::optional<coord_t> Line::appropriateX(coord_t y)
+{
+	coord_t Position_y = (y - p1.getY()) * (y - p2.getY());
+	if (Position_y > 0)
+		return std::optional<coord_t>();
+	else if (Position_y == 0)
+		return y == p1.getY() ? p1.getX() : p2.getX();
+	else /*position_y < 0*/
+		return (y - p1.getY()) / (p2.getY() - p1.getY())/*K*/ * (p2.getX() - p1.getX()) + p1.getX();
+}
+
+std::optional<coord_t> Line::appropriateY(coord_t x)
+{
+	coord_t Position_x = (x - p1.getX()) * (x - p2.getX());
+	if (Position_x > 0)
+		return std::optional<coord_t>();
+	else if (Position_x == 0)
+		return x == p1.getX() ? p1.getY() : p2.getY();
+	else /*position_y < 0*/
+		return (x - p1.getX()) / (p2.getX() - p1.getX())/*K*/ * (p2.getY() - p1.getY()) + p1.getY();
 }
 
 

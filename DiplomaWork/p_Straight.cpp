@@ -47,15 +47,15 @@ NODISCARD Point p_Straight::ProjectionPoint(Point m) const
 PointLineRelationship p_Straight::PointRelation(Point p) const
 {
 
-	const auto [p1, p2] = Point::minmax_X(this->p1, this->p2);
-	product_t relation = Vector::PseudoScalarProduct(Vector(p1, p2), Vector(p1, p));
+	const auto [m1, m2] = Point::minmax_X(this->p1, this->p2);
+	product_t relation = Vector::PseudoScalarProduct(Vector(m1, m2), Vector(m1, p));
 
 	if (relation == 0)//OnStraight(m))
 		return PointLineRelationship::OnStraight;
 
 	//check the verticality only after OnStraight
 	else if (isVertical()) {
-		return p.getX() < p1.getX() ? PointLineRelationship::VerticalLeft
+		return p.getX() < m1.getX() ? PointLineRelationship::VerticalLeft
 			: PointLineRelationship::VerticalRight;
 	}
 	else if (relation < 0)
@@ -74,6 +74,18 @@ NODISCARD bool p_Straight::isVertical() const
 NODISCARD bool p_Straight::isHorizontal() const
 {
 	return p1.getOrdinate() == p2.getOrdinate();
+}
+
+std::optional<coord_t> p_Straight::appropriateX(coord_t y)
+{
+	if(isHorizontal()) return std::optional<coord_t>();
+	return (y - p1.getY()) / (p2.getY() - p1.getY())/*K*/ * (p2.getX() - p1.getX()) + p1.getX();
+}
+
+std::optional<coord_t> p_Straight::appropriateY(coord_t x)
+{
+	if (isVertical()) std::optional<coord_t>();
+	return (x - p1.getX()) / (p2.getX() - p1.getX())/*K*/ * (p2.getY() - p1.getY()) + p1.getY();
 }
 
 

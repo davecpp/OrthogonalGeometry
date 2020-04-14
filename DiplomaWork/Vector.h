@@ -35,12 +35,13 @@ public:
 	NODISCARD Point VectorBegin() const { return begin; };
 	NODISCARD Point VectorEnd() const { return end; };
 
+/*
 	//Vector Product
 	NODISCARD static Vector CrossProduct(Vector v1, Vector v2);
 	//Cross Product
 	NODISCARD static Vector VectorProduct(Vector v1, Vector v2) {
 		return CrossProduct(v1, v2);
-	}
+	}*/
 
 
 	//Scalar Product

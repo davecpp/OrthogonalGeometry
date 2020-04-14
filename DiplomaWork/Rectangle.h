@@ -20,6 +20,14 @@ public:
 	Line getRightSide() const;
 	Line getBottomSide() const;
 	Line getUpperSide() const;
+
+
+	NODISCARD bool ContainsPoint(Point) const;
+	NODISCARD bool ContainsLine(Line) const;
+	NODISCARD bool areIntersect(Line) const;
+	
+	NODISCARD static bool areIntersect(Rectangle, Rectangle);
+
 };
 
 END_NAMESPACE(nm_Rectangle)

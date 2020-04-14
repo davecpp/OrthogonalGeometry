@@ -2,11 +2,13 @@
 #include <boost/assert.hpp>
 
 BEGIN_NAMESPACE(nm_Vector)
+
+/*
 NODISCARD Vector Vector::CrossProduct(Vector v1, Vector v2)
 {
 	BOOST_ASSERT_MSG(false, "implementation");
 	return v1;
-}
+}*/
 
 
 //cross(vector) product module

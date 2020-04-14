@@ -25,13 +25,24 @@ public:
 	}
 
 	//ax + by + c = 0
-	auto getY(coord_t x) const {
+	std::optional<coord_t> getY(coord_t x) const {
+		if (b == 0) return std::optional<coord_t>();
 		return (-c - a * x) / b;
 	}
 	//ax + by + c = 0
-	auto getX(coord_t y) const {
+	std::optional<coord_t> getX(coord_t y) const {
+		if (a == 0) return std::optional<coord_t>();
 		return (-c - b * y) / a;
 	}
+	//ax + by + c = 0
+	std::optional<coord_t> appropriateY(coord_t x) const {
+		return getY(x);
+	}
+	//ax + by + c = 0
+	std::optional<coord_t> appropriateX(coord_t y) const {
+		return getX(y);
+	}
+
 
 	NODISCARD coef_t getA() const { return a; }
 	NODISCARD coef_t getB() const { return b; }

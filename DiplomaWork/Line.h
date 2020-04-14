@@ -46,6 +46,10 @@ public:
 	NODISCARD static LinesIntersection IntersectionType(Line, Line);
 	//two Lines Intersection Point
 	NODISCARD static std::optional<Point> IntersectionPoint(Line, Line);
+	//two lines intersection if l1 is vertical
+	NODISCARD static std::optional<Point> VerticalLineIntersection(Line vertical, Line);
+	//two lines intersection if l1 is horizontal
+	NODISCARD static std::optional<Point> HorizontalLineIntersection(Line horizontal, Line);
 
 
 	//Point has projection on Line
@@ -74,11 +78,14 @@ public:
 	}
 
 
-
 	//is the Line Vertical
 	bool isVertical() const;
 	//is the Line Horizontal
 	bool isHorizontal() const;
+
+	NODISCARD std::optional<coord_t> appropriateX(coord_t Y);
+	NODISCARD std::optional<coord_t> appropriateY(coord_t X);
+
 
 	bool isEndPoint(Point p) const { return p == p1 || p == p2; }
 
@@ -98,6 +105,8 @@ public:
 
 	coord_t delta_x() const { return Point::delta_x(p1, p2); }
 	coord_t delta_y() const { return Point::delta_y(p1, p2); }
+
+
 
 
 	Point getLeftPoint() const;

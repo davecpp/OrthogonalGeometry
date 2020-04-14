@@ -42,6 +42,10 @@ public:
 	//true->p_Straight Horizontal
 	NODISCARD bool isHorizontal() const override;
 
+	//get Y(X) = Y, return X
+	NODISCARD std::optional<coord_t> appropriateX(coord_t y);
+	//get Y(X)
+	NODISCARD std::optional<coord_t> appropriateY(coord_t x);
 
 	//guide vector for Straight
 	NODISCARD Vector toVector();

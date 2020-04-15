@@ -61,6 +61,47 @@ Line Rectangle::getUpperSide() const
 	return Line(lb.getAbscis(), ru.getOrdinate(), ru);
 }
 
+Point Rectangle::LeftBottom() const
+{
+	return lb;
+}
+
+Point Rectangle::LeftUpper() const
+{
+	return Point(left_X(), upper_Y());
+}
+
+Point Rectangle::RightBottom() const
+{
+	return Point(right_X(), bottom_Y());
+}
+
+Point Rectangle::RightUpper() const
+{
+	return ru;
+}
+
+distance_t Rectangle::width() const
+{
+	return max_X() - min_X();
+}
+
+distance_t Rectangle::height() const
+{
+	return max_Y() - min_Y();
+}
+
+area_t Rectangle::Area() const
+{
+	return height() * width();
+}
+
+distance_t Rectangle::Perimetr() const
+{
+	return 2 * height() + 2 * width();
+}
+
+
 bool Rectangle::ContainsPoint(Point p) const
 {
 	return p.getX() >= lb.getX() && p.getX() <= ru.getX()
@@ -102,15 +143,11 @@ std::optional<Line> Rectangle::commonLine(Line l) const
 
 	BOOST_ASSERT_MSG(x[0] == invalid_point && x[1] != invalid_point, "impl error in lambda function");
 
-	if (x[0] == invalid_point /*&& x[1] == invalid_point*/) {//intersect in 0 points
+	if (x[0] == invalid_point /*&& x[1] == invalid_point*/) //intersect in 0 points
 		return ContainsPoint(l.firstPoint()) ? l : std::optional<Line>();
-	}
-	else if (x[1] == invalid_point/* && x[0] != invalid*/) { //intersect in 1 points
+	else if (x[1] == invalid_point/* && x[0] != invalid*/)  //intersect in 1 points
 		return ContainsPoint(l.firstPoint()) ? Line(x[0], l.firstPoint()) : Line(x[0], l.secondPoint());
-	}
-	else //intersect in 2 points
-		return Line(x[0], x[1]);
-
+	else return Line(x[0], x[1]); //intersect in 2 points
 }
 
 

@@ -1,7 +1,9 @@
 #pragma once
 #include "Point.h"
 #include "Line.h"
+#include "Straight.h"
 
+using area_t = decltype(distance_t()* distance_t());
 
 BEGIN_NAMESPACE(nm_Rectangle)
 using namespace nm_Point;
@@ -21,6 +23,26 @@ public:
 	Line getBottomSide() const;
 	Line getUpperSide() const;
 
+	Point LeftBottom() const;
+	Point LeftUpper() const;
+	Point RightBottom() const;
+	Point RightUpper() const;
+
+	coord_t min_X() const { return lb.getX(); }
+	coord_t max_X() const { return ru.getX(); }
+	coord_t min_Y() const { return lb.getY(); }
+	coord_t max_Y() const { return ru.getY(); }
+
+	coord_t left_X() const { return min_X(); }
+	coord_t right_X() const { return max_X(); }
+	coord_t bottom_Y() const { return min_Y(); }
+	coord_t upper_Y() const { return max_Y(); }
+
+	distance_t width() const;
+	distance_t height() const;
+	
+	area_t Area() const;
+	distance_t Perimetr() const;
 
 	NODISCARD bool ContainsPoint(Point) const;
 	NODISCARD bool ContainsLine(Line) const;

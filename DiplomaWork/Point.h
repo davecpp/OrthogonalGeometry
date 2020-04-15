@@ -12,7 +12,7 @@ auto square(_Ty value)->decltype(value* value)
 }
 
 using coord_t = double;
-using distance_t = double;
+using distance_t = decltype(coord_t() - coord_t());
 
 
 BEGIN_NAMESPACE(nm_Point)

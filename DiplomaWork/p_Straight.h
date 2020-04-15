@@ -12,8 +12,8 @@ using namespace nm_Vector;
 class StraightEquation;
 
 class p_Straight :public Straight {
-	Point p1;
-	Point p2;
+	const Point p1;
+	const Point p2;
 public:
 
 	explicit p_Straight(Point p1, Point p2) :p1(p1), p2(p2) {
@@ -48,7 +48,7 @@ public:
 	NODISCARD std::optional<coord_t> appropriateY(coord_t x);
 
 	//guide vector for Straight
-	NODISCARD Vector toVector();
+	NODISCARD Vector toVector() const;
 
 
 

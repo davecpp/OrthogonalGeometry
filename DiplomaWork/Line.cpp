@@ -155,6 +155,7 @@ bool Line::isHorizontal() const
 
 std::optional<coord_t> Line::appropriateX(coord_t y)
 {
+	if (isHorizontal()) return std::optional<coord_t>();
 	coord_t Position_y = (y - p1.getY()) * (y - p2.getY());
 	if (Position_y > 0)
 		return std::optional<coord_t>();
@@ -166,6 +167,7 @@ std::optional<coord_t> Line::appropriateX(coord_t y)
 
 std::optional<coord_t> Line::appropriateY(coord_t x)
 {
+	if (isVertical()) return std::optional<coord_t>();
 	coord_t Position_x = (x - p1.getX()) * (x - p2.getX());
 	if (Position_x > 0)
 		return std::optional<coord_t>();

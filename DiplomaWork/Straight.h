@@ -2,7 +2,7 @@
 #include "Straight_Abstract.h"
 #include "StraightEquation.h"
 #include "p_Straight.h"
-
+#include "Point.h"
 
 
 
@@ -19,9 +19,20 @@ inline nm_Straight::StraightEquation geometry_cast<nm_Straight::StraightEquation
 
 template<>
 inline nm_Straight::p_Straight geometry_cast<nm_Straight::p_Straight>(nm_Straight::StraightEquation e) {
+	if (e.isVertical())
+		return nm_Straight::p_Straight(
+			nm_Point::Point(-e.getC() / e.getA(), 0),
+			nm_Point::Point(-e.getC() / e.getA(), 10)
+		);
+	else if (e.isHorizontal())
+		return nm_Straight::p_Straight(
+			nm_Point::Point(0, -e.getC() / e.getB()),
+			nm_Point::Point(10, -e.getC() / e.getB())
+		);
+
 	return nm_Straight::p_Straight(
-		nm_Point::Point(0, e.getY(0)),
-		nm_Point::Point(10, e.getY(10))
+		nm_Point::Point(0, e.getY(0).value()),
+		nm_Point::Point(10, e.getY(10).value())
 	);
 }
 /*

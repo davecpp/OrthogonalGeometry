@@ -30,7 +30,7 @@ public:
 	//by default invalid
 	explicit Point(coord_t x, coord_t y) :x(x), y(y) {}
 
-	NODISCARD bool isValid() {
+	NODISCARD bool isValid() const {
 		return x != invalid_coord && y != invalid_coord;
 	}
 	//distance between p1 and p2 (result>=0)
@@ -67,6 +67,8 @@ public:
 	//ordinate
 	inline void setY(coord_t y);
 };
+
+
 
 NODISCARD bool operator==(Point p1, Point p2);
 NODISCARD bool operator!=(Point p1, Point p2);

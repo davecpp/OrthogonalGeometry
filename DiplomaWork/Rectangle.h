@@ -25,9 +25,14 @@ public:
 	NODISCARD bool ContainsPoint(Point) const;
 	NODISCARD bool ContainsLine(Line) const;
 	NODISCARD bool areIntersect(Line) const;
+	NODISCARD std::optional<Line> commonLine(Line) const;
 	
+	//Do are intersect two Rectangles
 	NODISCARD static bool areIntersect(Rectangle, Rectangle);
-
+	//Do are two Rectangle Intersect in Rec
+	NODISCARD static bool areIntersectInRect(Rectangle, Rectangle);
+	//two Rectangle Intersection Rectangle
+	NODISCARD static std::optional<Rectangle> IntersectionRect(Rectangle, Rectangle);
 };
 
 END_NAMESPACE(nm_Rectangle)

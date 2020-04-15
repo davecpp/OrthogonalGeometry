@@ -10,7 +10,7 @@ class p_Straight;
 class StraightEquation :public Straight {
 	using coef_t = double;
 
-	coef_t a, b, c;
+	const coef_t a, b, c;
 
 	//ax + by + c
 	auto Compute(Point p) const {
@@ -26,12 +26,12 @@ public:
 
 	//ax + by + c = 0
 	std::optional<coord_t> getY(coord_t x) const {
-		if (b == 0) return std::optional<coord_t>();
+		if (isVertical()) return std::optional<coord_t>();
 		return (-c - a * x) / b;
 	}
 	//ax + by + c = 0
 	std::optional<coord_t> getX(coord_t y) const {
-		if (a == 0) return std::optional<coord_t>();
+		if (isHorizontal()) return std::optional<coord_t>();
 		return (-c - b * y) / a;
 	}
 	//ax + by + c = 0

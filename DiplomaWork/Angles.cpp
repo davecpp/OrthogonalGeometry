@@ -21,12 +21,12 @@ radian_t toRadian(angle_t angle) {
 
 
 
-NODISCARD bool angle_t::isSharp()
+NODISCARD bool angle_t::isSharp() const
 {
 	return angle < (max() / 2);
 }
 
-NODISCARD bool angle_t::isObtuse()
+NODISCARD bool angle_t::isObtuse() const
 {
 	return angle > (max() / 2);
 }
@@ -44,12 +44,12 @@ NODISCARD angle_t angle_t::ObtuseAngle(angle_t a)
 
 
 
-NODISCARD bool radian_t::isSharp()
+NODISCARD bool radian_t::isSharp() const
 {
 	return radian < (max() / 2);
 }
 
-NODISCARD bool radian_t::isObtuse()
+NODISCARD bool radian_t::isObtuse() const
 {
 	return radian > (max() / 2);
 }

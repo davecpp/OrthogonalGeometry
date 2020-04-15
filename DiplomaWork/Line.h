@@ -16,7 +16,6 @@ using namespace nm_Straight;
 class Line;
 
 
-
 enum class LinesIntersection :std::uint8_t {
 	NotIntersect,
 
@@ -31,7 +30,7 @@ enum class LinesIntersection :std::uint8_t {
 
 class Line
 {
-	Point p1, p2;
+	const Point p1, p2;
 public:
 	explicit Line(Point p1, Point p2) :p1(p1), p2(p2) {
 		BOOST_ASSERT_MSG(p1 != p2, "invalid line");
@@ -115,6 +114,42 @@ public:
 	Point getBottomPoint() const;
 };
 
+
+
+
+struct range {
+	const coord_t min, max;
+	explicit range(coord_t a, coord_t b) :
+		min(a < b ? a : b),
+		max(a > b ? a : b)
+	{
+		BOOST_ASSERT_MSG(a != b, "invalid range");
+	}
+
+	NODISCARD static std::optional<range> IntersectionRange(range r1, range r2) {
+		coord_t ret_min = std::max(r1.min, r2.min);
+		coord_t ret_max = std::min(r1.max, r2.max);
+		if (ret_min < ret_max)
+			return range(ret_min, ret_max);
+		return std::optional<range>();
+	}
+
+	NODISCARD static std::optional<range> range_X(Line l1, Line l2) {
+		if (l1.isVertical() || l2.isVertical())
+			return std::optional<range>();
+		range r1 = range(l1.firstPoint().getX(), l1.secondPoint().getX());
+		range r2 = range(l2.firstPoint().getX(), l2.secondPoint().getX());
+		return IntersectionRange(r1, r2);
+	}
+
+	NODISCARD static std::optional<range> range_Y(Line l1, Line l2) {
+		if (l1.isHorizontal() || l2.isHorizontal())
+			return std::optional<range>();
+		range r1 = range(l1.firstPoint().getY(), l1.secondPoint().getY());
+		range r2 = range(l2.firstPoint().getY(), l2.secondPoint().getY());
+		return IntersectionRange(r1, r2);
+	}
+};
 
 
 END_NAMESPACE(nm_Line)

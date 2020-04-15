@@ -7,7 +7,7 @@ BEGIN_NAMESPACE(nm_Straight)
 
 
 //Construct Vector from l
-Vector p_Straight::toVector() {
+Vector p_Straight::toVector() const {
 	return Vector(p1, p2);
 }
 

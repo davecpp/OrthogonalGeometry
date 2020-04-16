@@ -157,6 +157,7 @@
     <ClInclude Include="BadCoordinate.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="GeometryCast.h" />
+    <ClInclude Include="RectanglesSet.h" />
     <ClInclude Include="Straight.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Point.h" />

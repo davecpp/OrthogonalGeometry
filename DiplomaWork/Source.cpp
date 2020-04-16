@@ -8,7 +8,7 @@
 #include "BadCoordinate.h"
 #include "p_Straight.h"
 #include "StraightEquation.h"
-
+#include "RectanglesSet.h"
 
 using namespace nm_Point;
 using namespace nm_Vector;

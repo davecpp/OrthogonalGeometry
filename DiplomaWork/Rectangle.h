@@ -9,6 +9,8 @@ BEGIN_NAMESPACE(nm_Rectangle)
 using namespace nm_Point;
 using namespace nm_Line;
 
+
+
 class Rectangle
 {
 	Point lb, ru;
@@ -22,6 +24,7 @@ public:
 	Line getRightSide() const;
 	Line getBottomSide() const;
 	Line getUpperSide() const;
+
 
 	Point LeftBottom() const;
 	Point LeftUpper() const;
@@ -40,7 +43,7 @@ public:
 
 	distance_t width() const;
 	distance_t height() const;
-	
+
 	area_t Area() const;
 	distance_t Perimetr() const;
 
@@ -48,7 +51,7 @@ public:
 	NODISCARD bool ContainsLine(Line) const;
 	NODISCARD bool areIntersect(Line) const;
 	NODISCARD std::optional<Line> commonLine(Line) const;
-	
+
 	//Do are intersect two Rectangles
 	NODISCARD static bool areIntersect(Rectangle, Rectangle);
 	//Do are two Rectangle Intersect in Rec
@@ -56,5 +59,19 @@ public:
 	//two Rectangle Intersection Rectangle
 	NODISCARD static std::optional<Rectangle> IntersectionRect(Rectangle, Rectangle);
 };
+
+
+struct VerticalSide {
+	coord_t x;
+	range y;
+
+	explicit VerticalSide(Line l) :
+		x(l.firstPoint().getX()),
+		y(l.firstPoint().getY(), l.secondPoint().getY()) 
+	{
+		BOOST_ASSERT_MSG(l.isVertical(),"the line is not vertical");
+	}
+};
+
 
 END_NAMESPACE(nm_Rectangle)

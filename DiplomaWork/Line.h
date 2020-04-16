@@ -129,10 +129,21 @@ struct range {
 	NODISCARD static std::optional<range> IntersectionRange(range r1, range r2) {
 		coord_t ret_min = std::max(r1.min, r2.min);
 		coord_t ret_max = std::min(r1.max, r2.max);
-		if (ret_min < ret_max)
-			return range(ret_min, ret_max);
-		return std::optional<range>();
+		return ret_min < ret_max ? range(ret_min, ret_max) : std::optional<range>();
 	}
+
+	NODISCARD static std::optional<coord_t> IntersectionPoint(range r1, range r2) {
+		coord_t ret_min = std::max(r1.min, r2.min);
+		coord_t ret_max = std::min(r1.max, r2.max);
+		return ret_min == ret_max ? ret_min : std::optional<coord_t>();
+	}
+
+	NODISCARD static bool areIntersect(range r1, range r2) {
+		coord_t ret_min = std::max(r1.min, r2.min);
+		coord_t ret_max = std::min(r1.max, r2.max);
+		return ret_min <= ret_max;
+	}
+
 
 	NODISCARD static std::optional<range> range_X(Line l1, Line l2) {
 		if (l1.isVertical() || l2.isVertical())

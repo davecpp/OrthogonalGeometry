@@ -77,6 +77,9 @@
     <ClInclude Include="Straight.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="RectanglesSet.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

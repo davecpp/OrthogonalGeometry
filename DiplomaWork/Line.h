@@ -126,6 +126,10 @@ struct range {
 		BOOST_ASSERT_MSG(a != b, "invalid range");
 	}
 
+	NODISCARD bool ContainsCoord(coord_t m) {
+		return (m - min) * (m - max) <= 0;
+	}
+
 	NODISCARD static std::optional<range> IntersectionRange(range r1, range r2) {
 		coord_t ret_min = std::max(r1.min, r2.min);
 		coord_t ret_max = std::min(r1.max, r2.max);

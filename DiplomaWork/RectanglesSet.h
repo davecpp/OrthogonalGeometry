@@ -3,6 +3,7 @@
 #include <map>
 #include "Rectangle.h"
 #include "Line.h"
+//#include <set>
 
 
 namespace std {
@@ -39,9 +40,53 @@ class RectanglesSet {
 			sidemap.insert(std::make_pair(rects[i].getLeftSide(), i));
 			sidemap.insert(std::make_pair(rects[i].getRightSide(), i));
 		}
-		//VerticalSide s(Line(0, 0, 0, 10));
-		
+	}
 
+	bool areOpener(VerticalSide v, index_t i) {
+		return v.x == rects[i].min_X();
+	}
+	bool areCloser(VerticalSide v, index_t i) {
+		return v.x == rects[i].max_X();
+	}
+
+	std::vector<std::pair<index_t, index_t>> IntersecteionPairs() {
+
+		std::vector<std::pair<index_t, index_t>> ret;
+		std::map<const VerticalSide, const index_t> currents;
+
+		for (const auto& it : sidemap)
+		{
+			if (areCloser(it.first, it.second))
+			{
+				currents.erase(it.first);
+				continue;
+			}
+			else
+				BOOST_ASSERT_MSG(areOpener(it.first, it.second), "maybe opener or closer");
+			//is opener
+
+			for (const auto& v : currents)
+			{
+				if (VerticalSide::areIntersectY(v.first, it.first))
+					ret.emplace_back(v.second, it.second);
+			}
+
+			currents.insert(it);
+		}
+		return ret;
+	}
+
+
+	std::vector<Rectangle> IntersectionRects() {
+		std::vector<Rectangle> ret;
+		auto rect_pairs = IntersecteionPairs();
+		for (const auto& pairs : rect_pairs)
+		{
+			auto intersect = Rectangle::IntersectionRect(rects[pairs.first], rects[pairs.second]);
+			BOOST_ASSERT_MSG(intersect.has_value(), "IMPL ERROR, ->first and second does not intersect");
+			ret.push_back(intersect.value());
+		}
+		return ret;
 	}
 
 

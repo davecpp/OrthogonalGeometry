@@ -71,6 +71,10 @@ struct VerticalSide {
 	{
 		BOOST_ASSERT_MSG(l.isVertical(),"the line is not vertical");
 	}
+
+	NODISCARD static bool areIntersectY(VerticalSide v1,VerticalSide v2) {
+		return range::areIntersect(v1.y, v2.y);
+	}
 };
 
 

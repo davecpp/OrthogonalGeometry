@@ -1,8 +1,12 @@
 #pragma once
 #include <utility>
 #include <limits>
+#include <boost/geometry/core/cs.hpp>
+#include <boost/geometry/geometries/point.hpp>
 #include "BadCoordinate.h"
 #include "GeometryCast.h"
+
+
 
 //value^2
 template<typename _Ty>
@@ -11,15 +15,32 @@ auto square(_Ty value)->decltype(value* value)
 	return value * value;
 }
 
+BEGIN_GEOMETRY
 using coord_t = double;
 using distance_t = decltype(coord_t() - coord_t());
 
+namespace c_axis {
+	enum coordinate_axis_type : size_t {
+		x = 0,
+		y = 1,
+		abscis = x,
+		ordinate = y
+	};
+}
+END_GEOMETRY
 
-BEGIN_NAMESPACE(nm_Point)
+
+namespace bg = boost::geometry;
+
+
+
+
+IN_NAEMSPACE_GEOMETRY(nm_Point)
 //constexpr coord_t invalid_coord = std::numeric_limits<coord_t>::lowest();
 const coord_t invalid_coord = nan("invalid coordinate");
 
 
+using boost_point = boost::geometry::model::point<coord_t, 2, bg::cs::cartesian>;
 
 class Point
 {
@@ -27,6 +48,14 @@ class Point
 	coord_t x, y;
 
 public:
+	//for boost compatibility
+	Point(boost_point p) :x(p.get<c_axis::x>()), y(p.get<c_axis::y>()) {}
+	/*explicit*/ operator boost_point() const {
+		return boost_point(x, y);
+	}
+	/////////////////////////
+
+
 	//by default invalid
 	explicit Point(coord_t x, coord_t y) :x(x), y(y) {}
 
@@ -73,4 +102,4 @@ public:
 NODISCARD bool operator==(Point p1, Point p2);
 NODISCARD bool operator!=(Point p1, Point p2);
 
-END_NAMESPACE(nm_Point)
+END_NAMESPACE_GEOMETRY(nm_Point)

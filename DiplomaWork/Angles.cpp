@@ -4,7 +4,7 @@
 
 
 
-BEGIN_NAMESPACE(nm_Angles)
+IN_NAEMSPACE_GEOMETRY(nm_Angles)
 
 
 //rad * 180 / pi
@@ -81,5 +81,5 @@ radian_t operator+(radian_t l, radian_t r) {
 
 
 
-END_NAMESPACE(nm_Angles)
+END_NAMESPACE_GEOMETRY(nm_Angles)
 

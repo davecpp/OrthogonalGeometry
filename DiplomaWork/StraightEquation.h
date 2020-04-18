@@ -3,7 +3,7 @@
 #include "Vector.h"
 
 
-BEGIN_NAMESPACE(nm_Straight)
+IN_NAEMSPACE_GEOMETRY(nm_Straight)
 using namespace nm_Vector;
 class p_Straight;
 
@@ -100,4 +100,4 @@ inline bool operator!=(StraightEquation l, StraightEquation r) {
 	return !(l == r);
 }
 
-END_NAMESPACE(nm_Straight)
+END_NAMESPACE_GEOMETRY(nm_Straight)

@@ -1,7 +1,7 @@
 #include "Vector.h"
 #include <boost/assert.hpp>
 
-BEGIN_NAMESPACE(nm_Vector)
+IN_NAEMSPACE_GEOMETRY(nm_Vector)
 
 /*
 NODISCARD Vector Vector::CrossProduct(Vector v1, Vector v2)
@@ -36,4 +36,4 @@ NODISCARD angle_t Vector::Angle(Vector v1, Vector v2)
 	//radian * 180 / pi
 	return toAngle(Angle_rad(v1, v2));
 }
-END_NAMESPACE(nm_Vector)
+END_NAMESPACE_GEOMETRY(nm_Vector)

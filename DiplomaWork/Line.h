@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 #include <optional>
+#include <boost/geometry/geometries/segment.hpp>
+
 #include "Point.h"
 #include "Angles.h"
 #include "Straight.h"
@@ -8,7 +10,7 @@
 #include "Vector.h"
 
 
-BEGIN_NAMESPACE(nm_Line)
+IN_NAEMSPACE_GEOMETRY(nm_Line)
 using namespace nm_Point;
 using namespace nm_Angles;
 using namespace nm_Straight;
@@ -28,16 +30,29 @@ enum class LinesIntersection :std::uint8_t {
 	LineIntersection = IntersectInLine
 };
 
+using boost_line = boost::geometry::model::segment<boost_point>;
+
 class Line
 {
 	const Point p1, p2;
 public:
+
+	//for boost compatibility//
+	Line(boost_line l) :p1(l.first), p2(l.second) {}
+	/*explicit*/ operator boost_line() const {
+		return boost_line(p1, p2);
+	}
+	///////////////////////////
+
+
 	explicit Line(Point p1, Point p2) :p1(p1), p2(p2) {
 		BOOST_ASSERT_MSG(p1 != p2, "invalid line");
 	}
 	explicit Line(coord_t x1, coord_t y1, coord_t x2, coord_t y2) :Line(Point(x1, y1), Point(x2, y2)) {}
 	explicit Line(Point p1, coord_t x2, coord_t y2) :Line(p1, Point(x2, y2)) {}
 	explicit Line(coord_t x1, coord_t y1, Point p2) :Line(Point(x1, y1), p2) {}
+
+
 
 	//static methods///////////////////
 
@@ -167,13 +182,15 @@ struct range {
 };
 
 
-END_NAMESPACE(nm_Line)
+END_NAMESPACE_GEOMETRY(nm_Line)
 
 
 //template<>
 //inline nm_Vector::Vector geometry_cast<nm_Vector::Vector>(nm_Line::Line l) {
 //	return l.toVector();
 //}
+
+BEGIN_GEOMETRY
 
 template<>
 inline nm_Straight::p_Straight geometry_cast<nm_Straight::p_Straight>(nm_Line::Line l) {
@@ -185,5 +202,5 @@ inline nm_Straight::StraightEquation geometry_cast<nm_Straight::StraightEquation
 	return geometry_cast<nm_Straight::StraightEquation>(l.toPStraight());
 }
 
-
+END_GEOMETRY
 

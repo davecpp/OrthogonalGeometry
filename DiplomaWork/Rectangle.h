@@ -1,21 +1,34 @@
 #pragma once
+#include <boost/geometry/geometries/box.hpp>
 #include "Point.h"
 #include "Line.h"
 #include "Straight.h"
 
-using area_t = decltype(distance_t()* distance_t());
 
-BEGIN_NAMESPACE(nm_Rectangle)
+BEGIN_GEOMETRY
+using area_t = decltype(distance_t()* distance_t());
+END_GEOMETRY
+
+
+IN_NAEMSPACE_GEOMETRY(nm_Rectangle)
 using namespace nm_Point;
 using namespace nm_Line;
 
-
+using boost_rectangle = bg::model::box<boost_point>;
 
 class Rectangle
 {
 	Point lb, ru;
 
 public:
+	//for boost compatibility
+	Rectangle(boost_rectangle r) :Rectangle(r.min_corner(), r.max_corner()) {}
+	operator boost_rectangle () const {
+		return boost_rectangle(lb, ru);
+	}
+	/////////////////////////
+
+
 	explicit Rectangle(coord_t x1, coord_t y1, coord_t x2, coord_t y2);
 	explicit Rectangle(Point l1, Point l2);
 	explicit Rectangle(Line l);
@@ -67,15 +80,15 @@ struct VerticalSide {
 
 	explicit VerticalSide(Line l) :
 		x(l.firstPoint().getX()),
-		y(l.firstPoint().getY(), l.secondPoint().getY()) 
+		y(l.firstPoint().getY(), l.secondPoint().getY())
 	{
-		BOOST_ASSERT_MSG(l.isVertical(),"the line is not vertical");
+		BOOST_ASSERT_MSG(l.isVertical(), "the line is not vertical");
 	}
 
-	NODISCARD static bool areIntersectY(VerticalSide v1,VerticalSide v2) {
+	NODISCARD static bool areIntersectY(VerticalSide v1, VerticalSide v2) {
 		return range::areIntersect(v1.y, v2.y);
 	}
 };
 
 
-END_NAMESPACE(nm_Rectangle)
+END_NAMESPACE_GEOMETRY(nm_Rectangle)

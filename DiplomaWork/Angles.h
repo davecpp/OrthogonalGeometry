@@ -5,7 +5,7 @@
 #include "GeometryCast.h"
 
 
-BEGIN_NAMESPACE(nm_Angles)
+IN_NAEMSPACE_GEOMETRY(nm_Angles)
 struct angle_t;
 struct radian_t;
 
@@ -85,10 +85,11 @@ struct radian_t {
 
 };
 
-END_NAMESPACE(nm_Angles)
+END_NAMESPACE_GEOMETRY(nm_Angles)
 
 
 
+BEGIN_GEOMETRY
 template<>
 inline nm_Angles::angle_t geometry_cast(nm_Angles::radian_t rad) {
 	return nm_Angles::angle_t(rad.radian * 180 / nm_Angles::radian_t::pi);
@@ -98,3 +99,4 @@ template<>
 inline nm_Angles::radian_t geometry_cast(nm_Angles::angle_t angle) {
 	return nm_Angles::radian_t(angle.angle * nm_Angles::radian_t::pi / 180);
 }
+END_GEOMETRY

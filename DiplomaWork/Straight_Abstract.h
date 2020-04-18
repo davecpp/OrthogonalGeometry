@@ -7,7 +7,7 @@
 
 
 
-BEGIN_NAMESPACE(nm_Straight)
+IN_NAEMSPACE_GEOMETRY(nm_Straight)
 using namespace nm_Point;
 using namespace nm_Angles;
 
@@ -70,4 +70,4 @@ public:
 
 
 
-END_NAMESPACE(nm_Straight)
+END_NAMESPACE_GEOMETRY(nm_Straight)

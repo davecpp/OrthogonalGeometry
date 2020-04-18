@@ -3,7 +3,7 @@
 #include "Rectangle.h"
 
 
-BEGIN_NAMESPACE(nm_Rectangle)
+IN_NAEMSPACE_GEOMETRY(nm_Rectangle)
 
 namespace PointOperations {
 	inline bool operator>(Point p1, Point p2) {
@@ -186,4 +186,4 @@ std::optional<Rectangle> Rectangle::IntersectionRect(Rectangle r1, Rectangle r2)
 
 
 
-END_NAMESPACE(nm_Rectangle)
+END_NAMESPACE_GEOMETRY(nm_Rectangle)

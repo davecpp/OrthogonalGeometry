@@ -5,6 +5,7 @@
 #include "Point.h"
 
 
+BEGIN_GEOMETRY
 
 template<>
 inline nm_Straight::StraightEquation geometry_cast<nm_Straight::StraightEquation>(nm_Straight::p_Straight s) {
@@ -48,3 +49,6 @@ inline nm_Straight::StraightEquation geometry_cast<nm_Straight::StraightEquation
 		(geometry_cast<nm_Straight::p_Straight>(v));
 }
 */
+
+
+END_GEOMETRY

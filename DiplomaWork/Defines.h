@@ -2,6 +2,12 @@
 
 #define NODISCARD  [[nodiscard]]
 
-#define BEGIN_NAMESPACE(x) namespace x {
-//#define END_NAMESPACE }
-#define END_NAMESPACE(x) }
+#define BEGIN_GEOMETRY namespace geometry {
+#define END_GEOMETRY  }
+
+#define IN_NAEMSPACE_GEOMETRY(x) namespace geometry{ namespace x {
+//#define END_NAMESPACE_GEOMETRY }
+#define END_NAMESPACE_GEOMETRY(x) } }
+
+
+#define ANONYM_NAMESPACE namespace{

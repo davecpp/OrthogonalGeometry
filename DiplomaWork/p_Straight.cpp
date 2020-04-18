@@ -3,7 +3,7 @@
 
 
 
-BEGIN_NAMESPACE(nm_Straight)
+IN_NAEMSPACE_GEOMETRY(nm_Straight)
 
 
 //Construct Vector from l
@@ -176,4 +176,4 @@ bool operator!=(p_Straight l, p_Straight r)
 	return !(l == r);
 }
 
-END_NAMESPACE(nm_Straight)
+END_NAMESPACE_GEOMETRY(nm_Straight)

@@ -3,10 +3,11 @@
 #include "Point.h"
 #include "Angles.h"
 
-
+BEGIN_GEOMETRY
 using product_t = double;
+END_GEOMETRY
 
-BEGIN_NAMESPACE(nm_Vector)
+IN_NAEMSPACE_GEOMETRY(nm_Vector)
 
 using namespace nm_Point;
 using namespace nm_Angles;
@@ -60,5 +61,5 @@ public:
 
 };
 
-END_NAMESPACE(nm_Vector)
+END_NAMESPACE_GEOMETRY(nm_Vector)
 

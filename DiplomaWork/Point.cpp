@@ -6,7 +6,7 @@
 
 
 
-BEGIN_NAMESPACE(nm_Point)
+IN_NAEMSPACE_GEOMETRY(nm_Point)
 
 //distance between p1 and p2 (result >=0)
 distance_t Point::distance(Point p1, Point p2)
@@ -52,9 +52,9 @@ inline void Point::setAbscis(coord_t abscis) { x = abscis; }
 //y
 inline void Point::setOrdinate(coord_t ordinate) { y = ordinate; }
 //abscis
-inline void Point::setX(coord_t x) { setAbscis(x); }
+inline void Point::setX(coord_t X) { setAbscis(X); }
 //ordinate
-inline void Point::setY(coord_t y) { setOrdinate(y); }
+inline void Point::setY(coord_t Y) { setOrdinate(Y); }
 
 NODISCARD bool operator==(Point p1, Point p2)
 {
@@ -67,4 +67,4 @@ bool operator!=(Point p1, Point p2)
 	return !(p1 == p2);
 }
 
-END_NAMESPACE(nm_Point)
+END_NAMESPACE_GEOMETRY(nm_Point)

@@ -4,7 +4,7 @@
 
 
 
-BEGIN_NAMESPACE(nm_Line)
+IN_NAEMSPACE_GEOMETRY(nm_Line)
 using namespace nm_Vector;
 
 
@@ -201,4 +201,4 @@ Point Line::getBottomPoint() const
 
 
 
-END_NAMESPACE(nm_Line)
+END_NAMESPACE_GEOMETRY(nm_Line)

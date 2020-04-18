@@ -9,7 +9,9 @@
 #include "p_Straight.h"
 #include "StraightEquation.h"
 #include "RectanglesSet.h"
+#include "BOOST_REGISTRATION.h"
 
+using namespace geometry;
 using namespace nm_Point;
 using namespace nm_Vector;
 using namespace nm_Angles;
@@ -26,9 +28,6 @@ int main() {
 	p_Straight s2(5, 3, 5, 5);
 
 	std::cout << p_Straight::IntersectionPoint(s1, s2).value().getX() << "," << p_Straight::IntersectionPoint(s1, s2).value().getY() << std::endl;
-
-	StraightEquation se(5000, 0, 0);
-	se.PointRelation(Point(-1, 0));
 
 	//Point point(15, 0);
 

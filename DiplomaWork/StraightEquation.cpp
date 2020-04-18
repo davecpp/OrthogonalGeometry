@@ -1,6 +1,6 @@
 #include "StraightEquation.h"
 
-BEGIN_NAMESPACE(nm_Straight)
+IN_NAEMSPACE_GEOMETRY(nm_Straight)
 
 
 
@@ -115,4 +115,4 @@ radian_t StraightEquation::ObtuseRadian(StraightEquation s1, StraightEquation s2
 	return radian_t::ObtuseRadian(r);
 }
 
-END_NAMESPACE(nm_Straight)
+END_NAMESPACE_GEOMETRY(nm_Straight)

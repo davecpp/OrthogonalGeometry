@@ -48,13 +48,13 @@ coord_t Point::getY() const { return getOrdinate(); }
 //setters//////////////////////////////
 
 //x
-inline void Point::setAbscis(coord_t abscis) { x = abscis; }
+void Point::setAbscis(coord_t abscis) { setX(abscis); }
 //y
-inline void Point::setOrdinate(coord_t ordinate) { y = ordinate; }
+void Point::setOrdinate(coord_t ordinate) { setY(ordinate); }
 //abscis
-inline void Point::setX(coord_t X) { setAbscis(X); }
+void Point::setX(coord_t X) { x = X; }
 //ordinate
-inline void Point::setY(coord_t Y) { setOrdinate(Y); }
+void Point::setY(coord_t Y) { y = Y; }
 
 NODISCARD bool operator==(Point p1, Point p2)
 {

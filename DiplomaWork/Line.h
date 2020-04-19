@@ -34,7 +34,7 @@ using boost_line = boost::geometry::model::segment<boost_point>;
 
 class Line
 {
-	const Point p1, p2;
+	Point p1, p2;
 public:
 
 	//for boost compatibility//
@@ -52,7 +52,16 @@ public:
 	explicit Line(Point p1, coord_t x2, coord_t y2) :Line(p1, Point(x2, y2)) {}
 	explicit Line(coord_t x1, coord_t y1, Point p2) :Line(Point(x1, y1), p2) {}
 
+	//non const method////////////////////////
+	//extends the line on each side to d
+	void ExtendLine(distance_t d) {
+		distance_t l = length();
+		p1.setX(p1.getX() - d / l * delta_x());
+		p1.setY(p1.getY() - d / l * delta_y());
 
+		p2.setX(p2.getX() + d / l * delta_x());
+		p2.setY(p2.getY() + d / l * delta_y());
+	}
 
 	//static methods///////////////////
 
@@ -117,8 +126,8 @@ public:
 	coord_t min_x() const { return x1() < x2() ? x1() : x2(); }
 	coord_t min_y() const { return y1() < y2() ? y1() : y2(); }
 
-	coord_t delta_x() const { return Point::delta_x(p1, p2); }
-	coord_t delta_y() const { return Point::delta_y(p1, p2); }
+	coord_t delta_x() const { return Point::delta_x(p2, p1); }
+	coord_t delta_y() const { return Point::delta_y(p2, p1); }
 
 
 

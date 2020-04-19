@@ -8,6 +8,16 @@ IN_NAEMSPACE_GEOMETRY(nm_Line)
 using namespace nm_Vector;
 
 
+//
+//void Line::ExtendLine(distance_t d)
+//{
+//	distance_t l = length();
+//	p1.setX(p1.getX() - d / l * delta_x());
+//	p1.setY(p1.getY() - d / l * delta_y());
+//
+//	p2.setX(p2.getX() + d/l * delta_x());
+//	p2.setY(p2.getY() + d / l * delta_y());
+//}
 
 //true -> l1 and l2 intersetced
 LinesIntersection Line::IntersectionType(Line l1, Line l2)

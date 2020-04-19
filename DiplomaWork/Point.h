@@ -88,13 +88,13 @@ public:
 	//setters//////////////////////////////
 
 	//x
-	inline void setAbscis(coord_t abscis);
+	void setAbscis(coord_t abscis);
 	//y
-	inline void setOrdinate(coord_t ordinate);
+	void setOrdinate(coord_t ordinate);
 	//abscis
-	inline void setX(coord_t x);
+	void setX(coord_t x);
 	//ordinate
-	inline void setY(coord_t y);
+	void setY(coord_t y);
 };
 
 

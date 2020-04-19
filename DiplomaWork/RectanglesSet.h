@@ -6,6 +6,7 @@
 #include <boost/geometry/geometries/segment.hpp>
 #include <boost/geometry/geometries/box.hpp>
 #include <boost/geometry/geometries/point.hpp>
+#include <boost/geometry/geometries/ring.hpp>
 
 //
 #include <boost/geometry/index/rtree.hpp>
@@ -41,6 +42,11 @@ using namespace nm_Line;
 using namespace nm_Rectangle;
 
 
+using boost_polygon = bg::model::ring<boost_point>;
+using Polygon = boost_polygon;
+
+
+
 template<typename geometry_t>
 using rtree = bgi::rtree<geometry_t, bgi::rstar<16>>;
 
@@ -71,11 +77,14 @@ public:
 		boost_line l(p1, p2);
 		boost_rectangle r(p1, p2);
 
+		boost_polygon poly;
+		tree.query(bgi::nearest(poly,2), std::back_inserter(arr));
+
 		//tree.qbegin(bgi::intersects(boost_rectangle(r)));
 		tree.query(bgi::contains(p1), std::back_inserter(arr));
 		tree.query(bgi::intersects(l), std::back_inserter(arr));
 		tree.query(bgi::covers(r), std::back_inserter(arr));
-		
+
 		//tree.query(bgi::covers(l), std::back_inserter(arr));
 
 	}
@@ -84,6 +93,8 @@ public:
 	NODISCARD return_type Intersects(Point) const;
 	NODISCARD return_type Intersects(Line) const;
 	NODISCARD return_type Intersects(Rectangle) const;
+	NODISCARD return_type Intersects(Polygon) const;
+
 
 	NODISCARD return_type Contains(Point) const;
 	NODISCARD return_type Contains(Line) const;
@@ -96,6 +107,7 @@ public:
 
 
 	NODISCARD return_type Overlaps(Rectangle) const;
+	NODISCARD return_type Overlaps(Line) const;
 
 	NODISCARD return_type CoveredBy(Rectangle) const;
 
@@ -104,12 +116,20 @@ public:
 	NODISCARD return_type Within(Rectangle) const;
 
 
+	NODISCARD return_type Nearest(Point, size_t) const;
+	NODISCARD return_type Nearest(Line, size_t) const;
+	NODISCARD return_type Nearest(Rectangle, size_t) const;
 
 
+	NODISCARD return_type euclideanDistance(Point, distance_t) const;
+	NODISCARD return_type euclideanDistance(Line, distance_t) const;
+	NODISCARD return_type euclideanDistance(Rectangle, distance_t) const;
+	NODISCARD return_type euclideanDistance(Polygon, distance_t) const;
 
 
-
-
+	NODISCARD return_type fastDistance(Point, distance_t) const;
+	NODISCARD return_type fastDistance(Line, distance_t) const;
+	NODISCARD return_type fastDistance(Rectangle, distance_t) const;
 
 
 

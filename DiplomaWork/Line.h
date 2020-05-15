@@ -91,11 +91,11 @@ public:
 	NODISCARD bool OnStraight(Point) const;
 
 
-	//Construct Vector from l
+	//Pack Vector from l
 	NODISCARD Vector toVector() const {
 		return Vector(p1, p2);
 	}
-	//Construct p_Straight from l
+	//Pack p_Straight from l
 	NODISCARD p_Straight toPStraight() const {
 		return p_Straight(p1, p2);
 	}

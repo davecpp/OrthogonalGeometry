@@ -2,6 +2,7 @@
 
 
 
+
 IN_NAEMSPACE_GEOMETRY(nm_Set_Of_Rectangles)
 
 using return_type = RectangleSet::return_type;//vector<index>

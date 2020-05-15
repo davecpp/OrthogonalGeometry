@@ -28,7 +28,6 @@ public:
 	}
 	/////////////////////////
 
-
 	explicit Rectangle(coord_t x1, coord_t y1, coord_t x2, coord_t y2);
 	explicit Rectangle(Point l1, Point l2);
 	explicit Rectangle(Line l);
@@ -89,6 +88,10 @@ struct VerticalSide {
 		return range::areIntersect(v1.y, v2.y);
 	}
 };
+
+inline bool operator==(Rectangle r1, Rectangle r2) {
+	return r1.LeftBottom() == r2.LeftBottom() && r1.RightUpper() == r2.RightUpper();
+}
 
 
 END_NAMESPACE_GEOMETRY(nm_Rectangle)

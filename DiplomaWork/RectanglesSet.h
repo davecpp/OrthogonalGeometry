@@ -25,7 +25,7 @@
 //////////////////
 
 
-
+#include <unordered_set>
 
 
 #include "Point.h"
@@ -60,14 +60,15 @@ public:
 	using rtree = rtree<pair_t>;
 	using return_type = std::vector<index_t>;
 
-	const RectArray rects;
-	const rtree tree;
 
-	RectangleSet(RectArray&& rect_arr) : rects(std::move(rect_arr)), tree(toIndexVector()) {
-		BOOST_ASSERT_MSG(!rects.empty(), "no input rectangles");
+	using iterator = RectArray::iterator;
+
+	RectArray rects;
+	rtree tree;
+
+	RectangleSet(RectArray&& rect_arr) : rects(std::move(rect_arr)), tree(Pack()) {
 	}
-	RectangleSet(BoostRectArray&& rect_arr) : rects(rect_arr.begin(), rect_arr.end()), tree(toIndexVector()) {
-		BOOST_ASSERT_MSG(!rects.empty(), "no input rectangles");
+	RectangleSet(BoostRectArray&& rect_arr) : rects(rect_arr.begin(), rect_arr.end()), tree(Pack()) {
 	}
 
 
@@ -78,7 +79,7 @@ public:
 		boost_rectangle r(p1, p2);
 
 		boost_polygon poly;
-		tree.query(bgi::nearest(poly,2), std::back_inserter(arr));
+		tree.query(bgi::nearest(poly, 2), std::back_inserter(arr));
 
 		//tree.qbegin(bgi::intersects(boost_rectangle(r)));
 		tree.query(bgi::contains(p1), std::back_inserter(arr));
@@ -133,12 +134,103 @@ public:
 
 
 
+
+
+
+
+
+
+	decltype(auto) begin() { return rects.begin(); }
+	decltype(auto) end() { return rects.end(); }
+	decltype(auto) operator[](const RectArray::size_type i) { return rects[i]; }
+	void push_back(Rectangle r) { rects.push_back(r); tree.insert(create_pair(r)); }
+	void add(Rectangle r) { push_back(r); }
+	void remove(Rectangle r) { rects.erase(std::remove(rects.begin(), rects.end(), r)); tree.remove(create_pair(r)); }
+	RectArray::size_type size() { return rects.size(); }
+
+
+
+	template<typename Predicates, typename OutIter>
+	rtree::size_type query(Predicates const& predicates, OutIter out_it) { return tree.query(predicates, out_it); }
+
+	template<typename Predicates>
+	rtree::const_query_iterator qbegin(Predicates const& predicates) { return tree.qbegin(predicates); }
+
+	rtree::const_query_iterator qend() { return tree.qend(); }
+
+
 private:
-	NODISCARD std::vector<pair_t> toIndexVector() const {
-		BOOST_ASSERT_MSG(!rects.empty(), "no input rectangles");
+
+	/*struct simpleLess {
+		bool operator()(const Rectangle& r1, const Rectangle& r2) const {
+			for (size_t i = 0; i < 4; i++)
+			{
+				if (get(r1, i) < get(r2, i)) return true;
+				else if (get(r1, i) == get(r2, i)) continue;
+				else return false;
+			}
+			return false;
+		}
+	private:
+		static coord_t get(const Rectangle& r, size_t i) {
+			switch (i) {
+			case 0:
+				return r.min_X();
+			case 1:
+				return r.min_Y();
+			case 2:
+				return r.max_X();
+			case 3:
+				return r.max_Y();
+			default:
+				assert(false);
+			}
+		}
+	};*/
+
+	struct simpleHash {
+		using argument_type = Rectangle;
+		using result_type = size_t;
+
+		result_type operator()(const argument_type& r) const noexcept {
+			result_type hash = 0;
+			for (size_t i = 0; i < 4; i++)
+			{
+				hash += (73 * hash + static_cast<result_type>(get(r, i))) % 9;
+			}
+			return hash;
+		}
+	private:
+		static coord_t get(const Rectangle& r, size_t i) {
+			switch (i) {
+			case 0:
+				return r.min_X();
+			case 1:
+				return r.min_Y();
+			case 2:
+				return r.max_X();
+			case 3:
+				return r.max_Y();
+			default:
+				assert(false);
+			}
+		}
+	};
+
+	NODISCARD std::vector<pair_t> Pack() {//for packing algorithm
 		std::vector<pair_t> ret;
 		ret.reserve(rects.size());
 		index_t i = 0;
+
+		//std::sort(rects.begin(), rects.end(), simpleLess()); //work in O(n*log(n))
+		//rects.erase(std::unique(rects.begin(), rects.end()), rects.end());
+
+		//duplicates remove work in O(n)
+		std::unordered_set<Rectangle, simpleHash> s;
+		auto end = std::remove_if(rects.begin(), rects.end(),
+			[&s](const Rectangle& r) {return !s.insert(r).second; });
+		rects.erase(end, rects.end());
+
 		for (const auto& it : rects)
 		{
 			ret.emplace_back(it, i++);
@@ -146,6 +238,9 @@ private:
 		return ret;
 	}
 
+	pair_t create_pair(Rectangle r) {
+		return pair_t(boost_rectangle(r), rects.size() - 1);
+	}
 };
 
 

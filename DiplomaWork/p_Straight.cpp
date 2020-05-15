@@ -6,7 +6,7 @@
 IN_NAEMSPACE_GEOMETRY(nm_Straight)
 
 
-//Construct Vector from l
+//Pack Vector from l
 Vector p_Straight::toVector() const {
 	return Vector(p1, p2);
 }
